@@ -17,18 +17,41 @@ class MainViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
     
+    @IBOutlet weak var avgLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         label.text = userobj?.Email
         DispatchQueue.global(qos: .userInitiated).async {
-            self.getGrades(studyId: String(self.userobj!.studyId), accessKey: String(self.userobj!.accessKey))
+            self.getGrades(studyId: (self.userobj?.studyId)!, accessKey: (self.userobj?.accessKey)!, CompletionHandler: { (error) in
+                if error == nil{
+                    print("alt gik godt")
+                    self.avgLabel.text = "\(self.makeAvgGrade())"
+                }else{
+                    print("fejl")
+                }
+            })
+            
+      
         }
         
     }
     
-    func getGrades(studyId: String, accessKey: String){
+    func makeAvgGrade() -> Double{
+        var count = 0.0
+        var sum = 0.0
+        
+        for grade in Array {
+            sum = sum + Double(grade.Grade)
+            count += 1
+        }
+        
+        return sum/count
+    }
+    
+    func getGrades(studyId: String, accessKey: String, CompletionHandler: @escaping (Error?) -> Void){
         
         let headers = [
             "Accept": "text/html, */*, */*",
@@ -48,6 +71,7 @@ class MainViewController: UIViewController {
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             if (error != nil) {
                 print(error)
+                CompletionHandler(error)
             } else {
                 let httpResponse = response as? HTTPURLResponse
                 //print(httpResponse)
@@ -55,6 +79,9 @@ class MainViewController: UIViewController {
                 print("XML_____________________")
                 if let xmldata = String(data: data!, encoding: .utf8){
                     self.parseResualtXML(xmlString: String(xmldata))
+                    CompletionHandler(nil)
+                }else{
+                    CompletionHandler(error)
                 }
                 
             }

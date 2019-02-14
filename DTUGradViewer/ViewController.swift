@@ -21,20 +21,34 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    @IBOutlet weak var username: UITextField!
+    
+    @IBOutlet weak var password: UITextField!
+    
     @IBAction func btn(_ sender: UIButton) {
+        guard let usernameText = self.username.text else {
+            print("ooops wrong username")
+            return
+        }
+        
+        guard let passeordText = self.password.text else {
+            print("ooops wrong password")
+            return
+        }
+        
         DispatchQueue.global(qos: .userInitiated).async {
-            self.dowork()
+            self.dowork(id: usernameText, pass: passeordText)
         }
     }
     
-    func dowork(){
-        getAuthKey(id: "s161791", password: "VXH77kdp") { (key, error) in
+    func dowork(id: String, pass: String){
+        getAuthKey(id: id, password: pass) { (key, error) in
             if let stringkey = key{
                 print("got key")
                 userobj.accessKey = stringkey
-                userobj.studyId = "s161791"
+                userobj.studyId = id
                 
-                self.getUser(accssesKey: stringkey, studyId: "s161791", CompletionHandler: { (user, error) in
+                self.getUser(accssesKey: stringkey, studyId: id, CompletionHandler: { (user, error) in
                 
                     print("id: \(userobj.studyId) , pass: \(userobj.password)")
                     print("Skift!")
@@ -53,11 +67,10 @@ class ViewController: UIViewController {
                 
             }else{
                 print("error")
-                self.dowork()
+                self.dowork(id: id, pass: pass)
             }
             }
         }
-    
     
     func getUser(accssesKey: String, studyId: String, CompletionHandler: @escaping (User?, Error?) -> Void){
         
