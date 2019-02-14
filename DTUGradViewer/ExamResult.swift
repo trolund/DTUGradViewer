@@ -10,14 +10,20 @@
 
 import Foundation
 
-class ExamResulte {
+class ExamResult {
     
-    var CourseCode: Int = 0
+    var CourseCode: String = ""
     var EctsGiven: Bool = false
     var EctsPoints: Int = 0
     var Grade: Int = 0
     var Period: String = ""
     var Year: String = ""
     var Name: String = ""
+    
+    var Program: String = ""
+    
+    public func dis() -> String {
+        return "\(CourseCode) \(EctsGiven) \(EctsPoints) \(Grade) \(Year) \(Period) \n \(Name) \n\n"
+    }
     
 }

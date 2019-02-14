@@ -15,7 +15,7 @@
 		9F1BAC51221498D700DA1F63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F1BAC4F221498D700DA1F63 /* LaunchScreen.storyboard */; };
 		9FB232C922149D9D0048FCCC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232C822149D9C0048FCCC /* User.swift */; };
 		9FB232CB2214B9510048FCCC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232CA2214B9510048FCCC /* MainViewController.swift */; };
-		9FB232CD22154E040048FCCC /* ExamResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232CC22154E040048FCCC /* ExamResult.swift */; };
+		9FB232CE221551820048FCCC /* ExamResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232CC22154E040048FCCC /* ExamResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -222,7 +222,7 @@
 				9F1BAC49221498D500DA1F63 /* ViewController.swift in Sources */,
 				9F1BAC47221498D500DA1F63 /* AppDelegate.swift in Sources */,
 				9FB232C922149D9D0048FCCC /* User.swift in Sources */,
-				9FB232CD22154E040048FCCC /* ExamResult.swift in Sources */,
+				9FB232CE221551820048FCCC /* ExamResult.swift in Sources */,
 				9FB232CB2214B9510048FCCC /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

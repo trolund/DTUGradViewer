@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import SwiftyXMLParser
 
 class MainViewController: UIViewController {
     
     var userobj: User? = nil
-    var colourArray : Array<ExamResult>
+    var ArrayProgram : Array<String> = []
+    var Array : Array<ExamResult> = []
 
     @IBOutlet weak var label: UILabel!
     
@@ -20,7 +22,9 @@ class MainViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         label.text = userobj?.Email
-        getGrades(studyId: String(userobj!.studyId), accessKey: String(userobj!.accessKey))
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.getGrades(studyId: String(self.userobj!.studyId), accessKey: String(self.userobj!.accessKey))
+        }
         
     }
     
@@ -46,11 +50,12 @@ class MainViewController: UIViewController {
                 print(error)
             } else {
                 let httpResponse = response as? HTTPURLResponse
-                print(httpResponse)
-                print(data)
-                
-                
-                
+                //print(httpResponse)
+                //print(data)
+                print("XML_____________________")
+                if let xmldata = String(data: data!, encoding: .utf8){
+                    self.parseResualtXML(xmlString: String(xmldata))
+                }
                 
             }
         })
@@ -58,5 +63,63 @@ class MainViewController: UIViewController {
         dataTask.resume()
  
     }
+    
+    private func parseResualtXML(xmlString: String){
+    
+        let xml = try! XML.parse(xmlString)
+        
+        for element in xml.EducationProgrammes.EducationProgramme{
+            print(element.attributes["DisplayName"])
+            ArrayProgram.append(element.attributes["DisplayName"]!)
+            var program = element
+            for el in program.ExamResults.ExamResult {
+                var resultat = ExamResult()
+                
+                if let CourseCodedata = el.attributes["CourseCode"] {
+                    resultat.CourseCode = String(CourseCodedata)
+                }
+                if let EctsGivendata = el.attributes["EctsGiven"] {
+                    resultat.EctsGiven = Bool(EctsGivendata)!
+                }
+                if let EctsPointsdata = el.attributes["EctsPoints"] {
+                    resultat.EctsPoints = Int(EctsPointsdata)!
+                }
+                if let Gardedata = el.attributes["Grade"] {
+                    resultat.Grade = Int(Gardedata)!
+                }
+                if let Namedata = el.attributes["Name"] {
+                    resultat.Name = Namedata
+                }
+                if let Perioddata = el.attributes["Period"] {
+                    resultat.Period = Perioddata
+                }
+                if let Programdata = program.attributes["DisplayName"] {
+                    resultat.Program = Programdata
+                }
+                if let Yeardata = program.attributes["Year"] {
+                    resultat.Year = Yeardata
+                }
+                print(resultat.dis())
+                Array.append(resultat)
+                
+            }
+        }
+        
+    }
 
+    /*
+     
+     <EducationProgrammes>
+     <EducationProgramme DisplayName="Adgangskursus" Active="false">
+     <PassedEctsSum Exams="9" Credits="0" Total="9" />
+     <ExamResults>
+     <ExamResult CourseCode="ADGFYSB06" EctsGiven="true" EctsPoints="9" Grade="12" Period="Summer" Year="2016" Name="-" />
+     </ExamResults>
+     <CreditResults />
+     </EducationProgramme>
+ 
+ 
+ 
+ */
+    
 }
