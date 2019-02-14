@@ -48,7 +48,7 @@ class MainViewController: UIViewController {
             count += 1
         }
         
-        return sum/count
+        return sum/count 
     }
     
     func getGrades(studyId: String, accessKey: String, CompletionHandler: @escaping (Error?) -> Void){
