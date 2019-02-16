@@ -16,6 +16,8 @@
 		9FB232C922149D9D0048FCCC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232C822149D9C0048FCCC /* User.swift */; };
 		9FB232CB2214B9510048FCCC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232CA2214B9510048FCCC /* MainViewController.swift */; };
 		9FB232CE221551820048FCCC /* ExamResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232CC22154E040048FCCC /* ExamResult.swift */; };
+		9FC3496F221736DD001F86FB /* dtu.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FC3496E221736DD001F86FB /* dtu.png */; };
+		9FC3497122174384001F86FB /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3497022174384001F86FB /* CustomCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		9FB232C822149D9C0048FCCC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = ../../DTUGrades/DTUGrades/User.swift; sourceTree = "<group>"; };
 		9FB232CA2214B9510048FCCC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9FB232CC22154E040048FCCC /* ExamResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResult.swift; sourceTree = "<group>"; };
+		9FC3496E221736DD001F86FB /* dtu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dtu.png; path = ../../../../Desktop/dtu.png; sourceTree = "<group>"; };
+		9FC3497022174384001F86FB /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,10 +85,12 @@
 				9F1BAC4A221498D500DA1F63 /* Main.storyboard */,
 				9FB232CA2214B9510048FCCC /* MainViewController.swift */,
 				9F1BAC4D221498D700DA1F63 /* Assets.xcassets */,
+				9FC3496E221736DD001F86FB /* dtu.png */,
 				9FB232C822149D9C0048FCCC /* User.swift */,
 				9F1BAC4F221498D700DA1F63 /* LaunchScreen.storyboard */,
 				9F1BAC52221498D700DA1F63 /* Info.plist */,
 				9FB232CC22154E040048FCCC /* ExamResult.swift */,
+				9FC3497022174384001F86FB /* CustomCell.swift */,
 			);
 			path = DTUGradViewer;
 			sourceTree = "<group>";
@@ -158,6 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F1BAC51221498D700DA1F63 /* LaunchScreen.storyboard in Resources */,
+				9FC3496F221736DD001F86FB /* dtu.png in Resources */,
 				9F1BAC4E221498D700DA1F63 /* Assets.xcassets in Resources */,
 				9F1BAC4C221498D500DA1F63 /* Main.storyboard in Resources */,
 			);
@@ -223,6 +230,7 @@
 				9F1BAC47221498D500DA1F63 /* AppDelegate.swift in Sources */,
 				9FB232C922149D9D0048FCCC /* User.swift in Sources */,
 				9FB232CE221551820048FCCC /* ExamResult.swift in Sources */,
+				9FC3497122174384001F86FB /* CustomCell.swift in Sources */,
 				9FB232CB2214B9510048FCCC /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

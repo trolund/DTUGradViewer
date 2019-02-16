@@ -9,49 +9,108 @@
 import UIKit
 import SwiftyXMLParser
 
-class MainViewController: UIViewController {
-    
-    var userobj: User? = nil
-    var ArrayProgram : Array<String> = []
-    var Array : Array<ExamResult> = []
 
-    @IBOutlet weak var label: UILabel!
+
+class MainViewController: UIViewController, UITableViewDataSource {
     
-    @IBOutlet weak var avgLabel: UILabel!
+    var ExsamResults : Array<ExamResult> = []
+    var ArrayProgram : Array<String> = []
+    var userobj: User? = nil
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return ExsamResults.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath) //1.
+        
+        let element = ExsamResults[indexPath.row]
+        
+        let text =  "\(element.Grade) : \(element.Name)"
+        
+        cell.textLabel?.text = text //3.
+        
+        print(cell.textLabel?.text)
+        
+        return cell //4.
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    @IBOutlet weak var maxGradeLabel: UILabel!
+    @IBOutlet weak var minGradeLabel: UILabel!
+    @IBOutlet weak var programPicker: UIPickerView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var EmalLabel: UILabel!
+    
+    @IBOutlet weak var tabelView: UITableView!
+    @IBOutlet weak var avgGradeLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.tabelView.register(UITableViewCell.self, forCellReuseIdentifier: "hej")
+        self.tabelView.dataSource = self
+         //self.tabelView.dataSource = self as UITableViewDataSource
         // Do any additional setup after loading the view.
-        label.text = userobj?.Email
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.getGrades(studyId: (self.userobj?.studyId)!, accessKey: (self.userobj?.accessKey)!, CompletionHandler: { (error) in
+        EmalLabel.text = userobj?.studyId
+        if let name = userobj?.GivenName, let famName = userobj?.FamilyName{
+            nameLabel.text = "\(name) \(String(famName))"
+        }
+        self.getGrades(studyId: (self.userobj!.studyId), accessKey: (self.userobj!.accessKey), CompletionHandler: { (error) in
                 if error == nil{
                     print("alt gik godt")
-                    self.avgLabel.text = "\(self.makeAvgGrade())"
-                }else{
+                    DispatchQueue.main.async {
+                        self.avgGradeLabel.text = String(format: "%.2f", self.makeAvgGrade())
+                        self.minGradeLabel.text = String(self.getMinGrade())
+                        self.maxGradeLabel.text = String(self.getMaxGrade())
+                        self.tabelView.reloadData()
+                         }
+                }
+                else{
                     print("fejl")
                 }
             })
-            
-      
-        }
         
+    }
+    
+    func getMinGrade() -> Int {
+        var min = 12
+        for grade in ExsamResults {
+            if grade.Grade < min{
+                min = grade.Grade
+            }
+        }
+
+       return min
+    }
+    
+    func getMaxGrade() -> Int {
+        var max = 0
+        for grade in ExsamResults {
+            if grade.Grade > max{
+                max = grade.Grade
+            }
+        }
+        return max
     }
     
     func makeAvgGrade() -> Double{
         var count = 0.0
         var sum = 0.0
         
-        for grade in Array {
-            sum = sum + Double(grade.Grade)
-            count += 1
+        for grade in ExsamResults {
+            sum = sum + Double(grade.Grade) * Double(grade.EctsPoints)
+            count += Double(grade.EctsPoints)
         }
-        
         return sum/count  
     }
     
     func getGrades(studyId: String, accessKey: String, CompletionHandler: @escaping (Error?) -> Void){
+        
+        DispatchQueue.global(qos: .userInitiated).async {
         
         let headers = [
             "Accept": "text/html, */*, */*",
@@ -90,6 +149,7 @@ class MainViewController: UIViewController {
         dataTask.resume()
  
     }
+    }
     
     private func parseResualtXML(xmlString: String){
     
@@ -127,26 +187,10 @@ class MainViewController: UIViewController {
                     resultat.Year = Yeardata
                 }
                 print(resultat.dis())
-                Array.append(resultat)
+                ExsamResults.append(resultat)
                 
             }
         }
-        
     }
 
-    /*
-     
-     <EducationProgrammes>
-     <EducationProgramme DisplayName="Adgangskursus" Active="false">
-     <PassedEctsSum Exams="9" Credits="0" Total="9" />
-     <ExamResults>
-     <ExamResult CourseCode="ADGFYSB06" EctsGiven="true" EctsPoints="9" Grade="12" Period="Summer" Year="2016" Name="-" />
-     </ExamResults>
-     <CreditResults />
-     </EducationProgramme>
- 
- 
- 
- */
-    
 }
