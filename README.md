@@ -1,4 +1,4 @@
 # DTUGradViewer
 
 # App look
-![](https://media.giphy.com/media/2dmiD7nUvoHj3h4BhN/giphy.gif)
+![](https://media.giphy.com/media/NsGzVYDnoWQd1FtjqG/giphy.gif)
