@@ -32,6 +32,10 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var pickerVal: Int = 0{
         didSet{
             self.tabelView.reloadData()
+            self.avgGradeLabel.text = String(format: "%.2f", self.makeAvgGrade(program: self.pickerVal))
+            self.minGradeLabel.text = String(self.getMinGrade(program: self.pickerVal))
+            self.maxGradeLabel.text = String(self.getMaxGrade(program: self.pickerVal))
+            //print(pickerVal)
         }
     }
     
@@ -64,9 +68,9 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 if error == nil{
                     print("alt gik godt")
                     DispatchQueue.main.async {
-                        self.avgGradeLabel.text = String(format: "%.2f", self.makeAvgGrade())
-                        self.minGradeLabel.text = String(self.getMinGrade())
-                        self.maxGradeLabel.text = String(self.getMaxGrade())
+                        self.avgGradeLabel.text = String(format: "%.2f", self.makeAvgGrade(program: self.pickerVal))
+                        self.minGradeLabel.text = String(self.getMinGrade(program: self.pickerVal))
+                        self.maxGradeLabel.text = String(self.getMaxGrade(program: self.pickerVal))
                         self.tabelView.reloadData()
                         self.programPicker.reloadAllComponents()
                         print(String(self.ArrayProgram[0]))
@@ -80,34 +84,40 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
     }
     
-    func getMinGrade() -> Int {
+    func getMinGrade(program :Int) -> Int {
         var min = 12
         for grade in ExsamResults {
+            if grade.Program == ArrayProgram[program] || program == 0{
             if grade.Grade < min{
                 min = grade.Grade
+            }
             }
         }
 
        return min
     }
     
-    func getMaxGrade() -> Int {
+    func getMaxGrade(program :Int) -> Int {
         var max = 0
         for grade in ExsamResults {
+            if grade.Program == ArrayProgram[program] || program == 0{
             if grade.Grade > max{
                 max = grade.Grade
+            }
             }
         }
         return max
     }
     
-    func makeAvgGrade() -> Double{
+    func makeAvgGrade(program :Int) -> Double{
         var count = 0.0
         var sum = 0.0
         
         for grade in ExsamResults {
+            if grade.Program == ArrayProgram[program] || program == 0{
             sum = sum + Double(grade.Grade) * Double(grade.EctsPoints)
             count += Double(grade.EctsPoints)
+            }
         }
         return sum/count  
     }
