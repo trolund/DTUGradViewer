@@ -20,7 +20,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    var errorCount = 0
 
+    @IBOutlet weak var msgLabel: UILabel!
     @IBOutlet weak var username: UITextField!
     
     @IBOutlet weak var password: UITextField!
@@ -35,6 +38,8 @@ class ViewController: UIViewController {
             print("ooops wrong password")
             return
         }
+        
+        msgLabel.text = "Trying to login...."
         
         DispatchQueue.global(qos: .userInitiated).async {
             self.dowork(id: usernameText, pass: passeordText)
@@ -75,7 +80,17 @@ class ViewController: UIViewController {
                 
                 
             }else{
-                print("error")
+               // print(self.errorCount)
+                if self.errorCount < 500{
+                    self.errorCount+=1
+                }else{
+                    self.errorCount = 0
+                    DispatchQueue.main.async {
+                    self.msgLabel.text = "login failed, try again."
+                    }
+                    return
+                }
+                //print("error")
                 self.dowork(id: id, pass: pass)
             }
             }

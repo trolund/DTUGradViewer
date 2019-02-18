@@ -21,9 +21,12 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let text = ArrayProgram[row]
-        pickerVal = row
        // print(pickerVal)
         return text
+    }
+    
+    func pickerView(_: UIPickerView, didSelectRow: Int, inComponent: Int){
+        self.pickerVal = didSelectRow
     }
     
     var ExsamResults : Array<ExamResult> = []
@@ -35,7 +38,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.avgGradeLabel.text = String(format: "%.2f", self.makeAvgGrade(program: self.pickerVal))
             self.minGradeLabel.text = String(self.getMinGrade(program: self.pickerVal))
             self.maxGradeLabel.text = String(self.getMaxGrade(program: self.pickerVal))
-            //print(pickerVal)
+            print(pickerVal)
         }
     }
     
