@@ -9,35 +9,30 @@
 import UIKit
 import SwiftyXMLParser
 
-
-
-class MainViewController: UIViewController, UITableViewDataSource {
+class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return ArrayProgram.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let text = ArrayProgram[row]
+        pickerVal = row
+       // print(pickerVal)
+        return text
+    }
     
     var ExsamResults : Array<ExamResult> = []
     var ArrayProgram : Array<String> = []
-    var userobj: User? = nil
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ExsamResults.count
-    }
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath) //1.
-        
-        let element = ExsamResults[indexPath.row]
-        
-        let text =  "\(element.Grade) : \(element.Name)"
-        
-        cell.textLabel?.text = text //3.
-        
-        print(cell.textLabel?.text)
-        
-        return cell //4.
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+  //  var userobj: User? = nil
+    var pickerVal: Int = 0{
+        didSet{
+            self.tabelView.reloadData()
+        }
     }
     
     @IBOutlet weak var maxGradeLabel: UILabel!
@@ -51,15 +46,21 @@ class MainViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabelView.register(UITableViewCell.self, forCellReuseIdentifier: "hej")
+        ArrayProgram.append("All")
+        
+        self.programPicker.dataSource = self
+        self.programPicker.delegate = self
+        
+        //self.tabelView.register(UITableViewCell.self, forCellReuseIdentifier: "hej")
         self.tabelView.dataSource = self
+        self.tabelView.delegate = self
          //self.tabelView.dataSource = self as UITableViewDataSource
         // Do any additional setup after loading the view.
-        EmalLabel.text = userobj?.studyId
-        if let name = userobj?.GivenName, let famName = userobj?.FamilyName{
-            nameLabel.text = "\(name) \(String(famName))"
-        }
-        self.getGrades(studyId: (self.userobj!.studyId), accessKey: (self.userobj!.accessKey), CompletionHandler: { (error) in
+        EmalLabel.text = userGlobal.studyId
+
+            nameLabel.text = "\(userGlobal.GivenName) \(String(userGlobal.FamilyName))"
+        
+        self.getGrades(studyId: (userGlobal.studyId), accessKey: (userGlobal.accessKey), CompletionHandler: { (error) in
                 if error == nil{
                     print("alt gik godt")
                     DispatchQueue.main.async {
@@ -67,7 +68,10 @@ class MainViewController: UIViewController, UITableViewDataSource {
                         self.minGradeLabel.text = String(self.getMinGrade())
                         self.maxGradeLabel.text = String(self.getMaxGrade())
                         self.tabelView.reloadData()
+                        self.programPicker.reloadAllComponents()
+                        print(String(self.ArrayProgram[0]))
                          }
+                    
                 }
                 else{
                     print("fejl")
@@ -129,13 +133,13 @@ class MainViewController: UIViewController, UITableViewDataSource {
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             if (error != nil) {
-                print(error)
+                print(error as Any)
                 CompletionHandler(error)
             } else {
-                let httpResponse = response as? HTTPURLResponse
+                //let httpResponse = response as? HTTPURLResponse
                 //print(httpResponse)
                 //print(data)
-                print("XML_____________________")
+                //print("XML_____________________")
                 if let xmldata = String(data: data!, encoding: .utf8){
                     self.parseResualtXML(xmlString: String(xmldata))
                     CompletionHandler(nil)
@@ -156,11 +160,11 @@ class MainViewController: UIViewController, UITableViewDataSource {
         let xml = try! XML.parse(xmlString)
         
         for element in xml.EducationProgrammes.EducationProgramme{
-            print(element.attributes["DisplayName"])
+            //print(element.attributes["DisplayName"])
             ArrayProgram.append(element.attributes["DisplayName"]!)
-            var program = element
+            let program = element
             for el in program.ExamResults.ExamResult {
-                var resultat = ExamResult()
+                let resultat = ExamResult()
                 
                 if let CourseCodedata = el.attributes["CourseCode"] {
                     resultat.CourseCode = String(CourseCodedata)
@@ -169,7 +173,7 @@ class MainViewController: UIViewController, UITableViewDataSource {
                     resultat.EctsGiven = Bool(EctsGivendata)!
                 }
                 if let EctsPointsdata = el.attributes["EctsPoints"] {
-                    resultat.EctsPoints = Int(EctsPointsdata)!
+                    resultat.EctsPoints = Double(EctsPointsdata)!
                 }
                 if let Gardedata = el.attributes["Grade"] {
                     resultat.Grade = Int(Gardedata)!
@@ -192,5 +196,65 @@ class MainViewController: UIViewController, UITableViewDataSource {
             }
         }
     }
+    
+    // tabel view:
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if(pickerVal != 0){
+        var count = 0
+        for element in ExsamResults {
+            if(ArrayProgram[pickerVal] == element.Program){
+                count += 1
+            }
+        }
+            return count
+        }else{
+            return ExsamResults.count
+            
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath) //1.
+        
+        let element = ExsamResults[indexPath.row]
+        
+        let text =  "\(element.Grade) \t \(element.Name)"
+        
+        cell.textLabel?.text = text //3.
+        
+        if(ArrayProgram[pickerVal] ==  ExsamResults[indexPath.row].Program || pickerVal == 0){
+            cell.isHidden = false
+        }else{
+            cell.isHidden = true
+        }
+        //print(cell.textLabel?.text)
+        return cell //4.
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        var rowHeight:CGFloat = 0.0
+        
+        if(ArrayProgram[pickerVal] ==  ExsamResults[indexPath.row].Program || pickerVal == 0){
+            rowHeight = 55.0
+        }else{
+            rowHeight = 0.0
+        }
+        return rowHeight
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+            let vc: OneCourseViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OneCourseView") as! OneCourseViewController
+        
+        vc.reslut = ExsamResults[Int(indexPath[1])]
+            
+            self.present(vc, animated: true, completion: nil)
+    }
+    
+    // tabelview end
 
 }

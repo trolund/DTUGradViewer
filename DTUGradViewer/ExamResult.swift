@@ -14,7 +14,7 @@ class ExamResult {
     
     var CourseCode: String = ""
     var EctsGiven: Bool = false
-    var EctsPoints: Int = 0
+    var EctsPoints: Double = 0
     var Grade: Int = 0
     var Period: String = ""
     var Year: String = ""

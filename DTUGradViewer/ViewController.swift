@@ -11,7 +11,7 @@ import UIKit
 import SwiftyXMLParser
 import Alamofire
 
-var userobj: User = User()
+//var userobj: User = User()
 
 class ViewController: UIViewController {
     
@@ -39,26 +39,35 @@ class ViewController: UIViewController {
         DispatchQueue.global(qos: .userInitiated).async {
             self.dowork(id: usernameText, pass: passeordText)
         }
+        
     }
     
     func dowork(id: String, pass: String){
         getAuthKey(id: id, password: pass) { (key, error) in
             if let stringkey = key{
                 print("got key")
-                userobj.accessKey = stringkey
-                userobj.studyId = id
+                userGlobal.accessKey = stringkey
+                userGlobal.studyId = id
                 
                 self.getUser(accssesKey: stringkey, studyId: id, CompletionHandler: { (user, error) in
                 
-                    print("id: \(userobj.studyId) , pass: \(userobj.password)")
+                    print("id: \(user?.studyId) , pass: \(user?.password)")
                     print("Skift!")
                     
                     DispatchQueue.main.async {
                     let vc: MainViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Mainview") as! MainViewController
                     
                     print("user: \(user?.GivenName) logedin")
-                    vc.userobj = userobj
-                    
+                     /*   userGlobal.Closed = (user?.Closed)!
+                        userGlobal.Email = (user?.Email)!
+                        userGlobal.FamilyName = (user?.FamilyName)!
+                        userGlobal.GivenName = (user?.GivenName)!
+                        userGlobal.password = (user?.password)!
+                        userGlobal.PreferredLanguage = user?.PreferredLanguage ?? "dk"
+                        userGlobal.PrimaryPhone = (user?.PrimaryPhone)!
+                        userGlobal.UserId = (user?.studyId)!
+                        userGlobal.UserName = (user?.UserName)!
+                    */
                     self.present(vc, animated: true, completion: nil)
                     }
                     
@@ -107,28 +116,28 @@ class ViewController: UIViewController {
                         let xml = try! XML.parse(dataString)
                         
                         if let firstname = xml["User", 0].attributes["GivenName"] {
-                            userobj.GivenName = firstname
+                           userGlobal.GivenName = firstname
                         }
                         if let FamilyName = xml["User", 0].attributes["FamilyName"] {
-                            userobj.FamilyName = FamilyName
+                            userGlobal.FamilyName = FamilyName
                         }
                         if let UserId = xml["User", 0].attributes["UserId"] {
-                            userobj.UserId = UserId
+                            userGlobal.UserId = UserId
                         }
                         if let Closed = xml["User", 0].attributes["Closed"] {
-                            userobj.Closed = Closed
+                            userGlobal.Closed = Closed
                         }
                         if let Email = xml["User", 0].attributes["Email"] {
-                            userobj.Email = Email
+                            userGlobal.Email = Email
                         }
                         if let PrimaryPhone = xml["User", 0].attributes["PrimaryPhone"] {
-                            userobj.PrimaryPhone = PrimaryPhone
+                            userGlobal.PrimaryPhone = PrimaryPhone
                         }
                         if let UserName = xml["User", 0].attributes["UserName"] {
-                            userobj.UserName = UserName
+                            userGlobal.UserName = UserName
                         }
                         
-                        CompletionHandler(userobj , nil)
+                        CompletionHandler(userGlobal , nil)
                
                     }
                 }
@@ -175,8 +184,8 @@ class ViewController: UIViewController {
                         //print(mySubstring)
                         
                         if !String(mySubstring).contains("Wrong"){
-                            userobj.accessKey = String(mySubstring)
-                            CompletionHandler(userobj.accessKey, nil)
+                            userGlobal.accessKey = String(mySubstring)
+                            CompletionHandler(userGlobal.accessKey, nil)
                         }
                         else{
                             CompletionHandler(nil, error)
