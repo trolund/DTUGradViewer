@@ -13,10 +13,10 @@
 		9F1BAC4C221498D500DA1F63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F1BAC4A221498D500DA1F63 /* Main.storyboard */; };
 		9F1BAC4E221498D700DA1F63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F1BAC4D221498D700DA1F63 /* Assets.xcassets */; };
 		9F1BAC51221498D700DA1F63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F1BAC4F221498D700DA1F63 /* LaunchScreen.storyboard */; };
-		9FB232C922149D9D0048FCCC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232C822149D9C0048FCCC /* User.swift */; };
 		9FB232CB2214B9510048FCCC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232CA2214B9510048FCCC /* MainViewController.swift */; };
 		9FB232CE221551820048FCCC /* ExamResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB232CC22154E040048FCCC /* ExamResult.swift */; };
-		9FC3496F221736DD001F86FB /* dtu.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FC3496E221736DD001F86FB /* dtu.png */; };
+		9FBA258B2295C31300532281 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBA258A2295C31300532281 /* User.swift */; };
+		9FBA258D2295C4A700532281 /* dtu.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FBA258C2295C4A700532281 /* dtu.png */; };
 		9FC3497122174384001F86FB /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3497022174384001F86FB /* CustomCell.swift */; };
 		9FC3497322199520001F86FB /* OneCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3497222199520001F86FB /* OneCourseViewController.swift */; };
 		9FC34976221998F0001F86FB /* con.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FC34974221998EF001F86FB /* con.png */; };
@@ -34,10 +34,10 @@
 		9F1BAC4D221498D700DA1F63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F1BAC50221498D700DA1F63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F1BAC52221498D700DA1F63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9FB232C822149D9C0048FCCC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = ../../DTUGrades/DTUGrades/User.swift; sourceTree = "<group>"; };
 		9FB232CA2214B9510048FCCC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9FB232CC22154E040048FCCC /* ExamResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResult.swift; sourceTree = "<group>"; };
-		9FC3496E221736DD001F86FB /* dtu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dtu.png; path = ../../../../Desktop/dtu.png; sourceTree = "<group>"; };
+		9FBA258A2295C31300532281 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		9FBA258C2295C4A700532281 /* dtu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dtu.png; sourceTree = "<group>"; };
 		9FC3497022174384001F86FB /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		9FC3497222199520001F86FB /* OneCourseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneCourseViewController.swift; sourceTree = "<group>"; };
 		9FC34974221998EF001F86FB /* con.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = con.png; sourceTree = "<group>"; };
@@ -86,13 +86,12 @@
 		9F1BAC45221498D500DA1F63 /* DTUGradViewer */ = {
 			isa = PBXGroup;
 			children = (
+				9FBA258C2295C4A700532281 /* dtu.png */,
 				9F1BAC46221498D500DA1F63 /* AppDelegate.swift */,
 				9F1BAC48221498D500DA1F63 /* ViewController.swift */,
 				9F1BAC4A221498D500DA1F63 /* Main.storyboard */,
 				9FB232CA2214B9510048FCCC /* MainViewController.swift */,
-				9FC3496E221736DD001F86FB /* dtu.png */,
 				9F1BAC4D221498D700DA1F63 /* Assets.xcassets */,
-				9FB232C822149D9C0048FCCC /* User.swift */,
 				9FC34974221998EF001F86FB /* con.png */,
 				9FC34975221998EF001F86FB /* de.png */,
 				9F1BAC4F221498D700DA1F63 /* LaunchScreen.storyboard */,
@@ -100,6 +99,7 @@
 				9FB232CC22154E040048FCCC /* ExamResult.swift */,
 				9FC3497022174384001F86FB /* CustomCell.swift */,
 				9FC3497222199520001F86FB /* OneCourseViewController.swift */,
+				9FBA258A2295C31300532281 /* User.swift */,
 			);
 			path = DTUGradViewer;
 			sourceTree = "<group>";
@@ -174,8 +174,8 @@
 			files = (
 				9FC34977221998F0001F86FB /* de.png in Resources */,
 				9F1BAC51221498D700DA1F63 /* LaunchScreen.storyboard in Resources */,
-				9FC3496F221736DD001F86FB /* dtu.png in Resources */,
 				9F1BAC4E221498D700DA1F63 /* Assets.xcassets in Resources */,
+				9FBA258D2295C4A700532281 /* dtu.png in Resources */,
 				9FC34976221998F0001F86FB /* con.png in Resources */,
 				9F1BAC4C221498D500DA1F63 /* Main.storyboard in Resources */,
 			);
@@ -240,10 +240,10 @@
 				9F1BAC49221498D500DA1F63 /* ViewController.swift in Sources */,
 				9F1BAC47221498D500DA1F63 /* AppDelegate.swift in Sources */,
 				9FC3497322199520001F86FB /* OneCourseViewController.swift in Sources */,
-				9FB232C922149D9D0048FCCC /* User.swift in Sources */,
 				9FB232CE221551820048FCCC /* ExamResult.swift in Sources */,
 				9FC3497122174384001F86FB /* CustomCell.swift in Sources */,
 				9FB232CB2214B9510048FCCC /* MainViewController.swift in Sources */,
+				9FBA258B2295C31300532281 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

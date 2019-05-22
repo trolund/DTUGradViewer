@@ -11,7 +11,7 @@ import UIKit
 import SwiftyXMLParser
 import Alamofire
 
-//var userobj: User = User()
+var userGlobal: User = User()
 
 class ViewController: UIViewController {
     

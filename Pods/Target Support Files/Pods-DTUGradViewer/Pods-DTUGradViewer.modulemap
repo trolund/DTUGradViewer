@@ -1,0 +1,6 @@
+framework module Pods_DTUGradViewer {
+  umbrella header "Pods-DTUGradViewer-umbrella.h"
+
+  export *
+  module * { export * }
+}
