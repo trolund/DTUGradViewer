@@ -18,11 +18,16 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return ArrayProgram.count
     }
-    
+    /*
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let text = ArrayProgram[row]
        // print(pickerVal)
         return text
+    }
+     */
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        return NSAttributedString(string: ArrayProgram[row], attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
     
     func pickerView(_: UIPickerView, didSelectRow: Int, inComponent: Int){
@@ -57,6 +62,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         self.programPicker.dataSource = self
         self.programPicker.delegate = self
+        self.programPicker.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
         
         //self.tabelView.register(UITableViewCell.self, forCellReuseIdentifier: "hej")
         self.tabelView.dataSource = self
@@ -91,13 +98,15 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         var min = 12
         for grade in ExsamResults {
             if grade.Program == ArrayProgram[program] || program == 0{
-            if grade.Grade < min{
-                min = grade.Grade
-            }
+                if let gradeNum: Int = Int(grade.Grade) {
+                    if gradeNum < min{
+                        min = gradeNum
+                    }
+                }
             }
         }
-
-       return min
+        
+        return min
     }
     
     func getMaxGrade(program :Int) -> Int {
